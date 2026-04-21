@@ -1,0 +1,20 @@
+SELECT 
+    k.id,
+    k.kamer_nummer,
+    k.capaciteit,
+    (SELECT count(*) FROM leerlingen l WHERE l.kamer_id = k.id) as bezetting,
+    CASE 
+        -- 1. Is de kamer vol?
+        WHEN (SELECT count(*) FROM leerlingen l WHERE l.kamer_id = k.id) >= k.capaciteit THEN 'VOL'
+        -- 2. Is de kamer al bezet door het andere geslacht?
+        WHEN EXISTS (
+            SELECT 1 FROM leerlingen l 
+            WHERE l.kamer_id = k.id 
+            AND l.geslacht != (SELECT geslacht FROM leerlingen WHERE unieke_code = {{inp_Code.text}})
+        ) THEN 'VERBODEN'
+        -- 3. Heeft de leerling zelf al een kamer?
+        WHEN (SELECT kamer_id FROM leerlingen WHERE unieke_code = {{inp_Code.text}}) IS NOT NULL THEN 'JE HEBT AL EEN KAMER'
+        ELSE 'BESCHIKBAAR'
+    END as status
+FROM kamers k
+ORDER BY k.id ASC;

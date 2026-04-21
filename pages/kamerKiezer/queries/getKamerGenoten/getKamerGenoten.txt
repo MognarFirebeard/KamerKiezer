@@ -1,0 +1,5 @@
+SELECT 
+    l.naam, 
+    l.kamer_id 
+FROM leerlingen l 
+WHERE l.kamer_id IS NOT NULL;

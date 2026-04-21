@@ -1,0 +1,6 @@
+SELECT 
+    k.kamer_nummer,
+    (SELECT count(*) FROM leerlingen l WHERE l.kamer_id = k.id) as huidige_bezetting,
+    k.capaciteit
+FROM kamers k
+ORDER BY k.id ASC;

@@ -1,0 +1,6 @@
+UPDATE leerlingen 
+SET kamer_id = {{ tbl_Kamers.triggeredRow.id }},
+    code_gebruikt = TRUE
+WHERE unieke_code = {{ inp_Code.text }}
+  AND code_gebruikt = FALSE
+  AND kamer_id IS NULL;

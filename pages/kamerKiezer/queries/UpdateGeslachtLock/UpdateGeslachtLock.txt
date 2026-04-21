@@ -1,0 +1,7 @@
+UPDATE kamers
+SET geslacht_lock = (
+	SELECT geslacht FROM leerlingen 
+	WHERE unieke_code = {{ inp_Code.text }}
+)
+WHERE id = {{ tbl_Kamers.triggeredRow.id }}
+AND (geslacht_lock IS NULL OR geslacht_lock = '');

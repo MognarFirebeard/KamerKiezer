@@ -1,0 +1,7 @@
+SELECT 
+    naam, 
+    geslacht, 
+    unieke_code 
+FROM leerlingen 
+WHERE kamer_id IS NULL 
+ORDER BY naam ASC;
